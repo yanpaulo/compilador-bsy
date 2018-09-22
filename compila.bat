@@ -1,6 +1,6 @@
 @echo off
 SET "MINGW_DIR=C:\MinGW\bin"
-SET "FLEX_BISON_DIR=C:\Users\yanpa\Downloads\win_flex_bison-2.5.15"
+SET "FLEX_BISON_DIR=.\win_flex_bison-2.5.15"
 
 SET PATH=%PATH%;%MINGW_DIR%;%FLEX_BISON_DIR%
 
