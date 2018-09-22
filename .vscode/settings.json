@@ -1,0 +1,6 @@
+{
+    "files.exclude": {
+        "*.bat": true,
+        "*.exe": true
+    }
+}
