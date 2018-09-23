@@ -1,6 +1,9 @@
 {
     "files.exclude": {
         "*.bat": true,
-        "*.exe": true
+        "*.exe": true,
+        "lex.yy.c": true,
+        "parser.tab.*": true,
+        "win_flex_bison-*/": true
     }
 }
