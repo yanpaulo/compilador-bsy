@@ -68,19 +68,20 @@ void inicializa_tabela()
     tabela_simbolos = (tabela *)calloc(1, sizeof(tabela));
 }
 
-tabela *adiciona_elementos_tabela(tipo t, elemento *lista)
+tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
 {
     elemento *e = lista;
 
     do
     {
-        if (e->tipo != 0 && e->tipo != t)
+        if (e->tipo != 0 && e->tipo != tipo)
         {
             char erro[128];
-            sprintf(erro, "Nao e possivel converter implicitamente '%s' em '%s'.\n", nome_tipo(e->tipo), nome_tipo(t));
+            sprintf(erro, "Nao e possivel converter implicitamente '%s' em '%s'.\n", nome_tipo(e->tipo), nome_tipo(tipo));
             yyerror(erro);
             return NULL;
         }
+        e->tipo = tipo;
 
         if (tabela_simbolos->head)
         {
