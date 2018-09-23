@@ -7,7 +7,6 @@ extern void yyerror(const char *s);
 
 void adiciona_elemento_tabela(tipo t, elemento *e);
 void imprime_elemento(elemento *e);
-char *nome_tipo(tipo t);
 
 #pragma region Elemento
 elemento *cria_elemento(char *nome)

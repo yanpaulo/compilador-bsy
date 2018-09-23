@@ -49,5 +49,6 @@ elemento* valor_float(float f);
 
 elemento* valor_char(char c);
 
+char *nome_tipo(tipo t);
 
 #endif
