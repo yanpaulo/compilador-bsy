@@ -1,13 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "suporte.h"
+
+extern void yyerror(const char *s);
 
 void adiciona_elemento_tabela(tipo t, elemento *e);
 void imprime_elemento(elemento *e);
 
-void tabela_add(tipo t, char *nome)
+char *nome_tipo(tipo t)
 {
-    printf("Adicionado %s: %d (mentira)\n");
+
+    switch (t)
+    {
+    case INT:
+        return "int";
+        break;
+    case CHAR:
+        return "char";
+        break;
+    case FLOAT:
+        return "float";
+        break;
+    default:
+        break;
+    }
 }
 
 elemento *cria_elemento(char *nome)
@@ -32,14 +49,14 @@ elemento *valor_int(int i)
     return cria_elemento_valor(INT, v);
 }
 
-elemento* valor_float(float f)
+elemento *valor_float(float f)
 {
     valor v;
     v.floatValue = f;
     return cria_elemento_valor(FLOAT, v);
 }
 
-elemento* valor_char(char c)
+elemento *valor_char(char c)
 {
     valor v;
     v.charValue = c;
@@ -51,14 +68,48 @@ void inicializa_tabela()
     tabela_simbolos = (tabela *)calloc(1, sizeof(tabela));
 }
 
-
-
-void adiciona_elementos_tabela(tipo t, elemento *lista)
+tabela *adiciona_elementos_tabela(tipo t, elemento *lista)
 {
-    
-    if (tabela_simbolos->head) {
-        elemento* e = tabela_simbolos->head;
-        while(e->proximo){
+    elemento *e = lista;
+
+    do
+    {
+        if (e->tipo != 0 && e->tipo != t)
+        {
+            char erro[128];
+            sprintf(erro, "Nao e possivel converter implicitamente '%s' em '%s'.\n", nome_tipo(e->tipo), nome_tipo(t));
+            yyerror(erro);
+            return NULL;
+        }
+
+        if (tabela_simbolos->head)
+        {
+            elemento *t = tabela_simbolos->head;
+
+            do
+            {
+                if (!strcmp(t->nome, e->nome))
+                {
+                    char msg[64];
+                    sprintf(msg, "Variavel %s ja declarada.", e->nome);
+                    yyerror(msg);
+                    return NULL;
+                }
+
+                t = t->proximo;
+            } while (t);
+        }
+
+        e = e->proximo;
+    } while (e);
+
+    if (tabela_simbolos->head)
+    {
+        elemento *l = lista;
+        e = tabela_simbolos->head;
+
+        while (e->proximo)
+        {
             e = e->proximo;
         }
         e->proximo = lista;
@@ -68,20 +119,39 @@ void adiciona_elementos_tabela(tipo t, elemento *lista)
         tabela_simbolos->head = lista;
     }
     printf("\n");
+
+    return tabela_simbolos;
 }
 
 elemento *adiciona_elemento(elemento *lista, elemento *e)
 {
-    elemento* l = lista;
-    while(l->proximo){
+    elemento *l = lista;
+
+    do
+    {
+        if (l->nome != NULL && !strcmp(l->nome, e->nome))
+        {
+            char msg[64];
+            sprintf(msg, "Variavel %s ja declarada.", e->nome);
+            yyerror(msg);
+            return NULL;
+            return NULL;
+        }
+
+        l = l->proximo;
+    } while (l);
+
+    l = lista;
+
+    while (l->proximo)
+    {
         l = l->proximo;
     }
+
     l->proximo = e;
 
     return lista;
 }
-
-
 
 void imprime_elementos(elemento *lista)
 {

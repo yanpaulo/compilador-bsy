@@ -33,7 +33,7 @@ tabela* tabela_simbolos;
 
 void inicializa_tabela();
 
-void adiciona_elementos_tabela(tipo t, elemento* e);
+tabela* adiciona_elementos_tabela(tipo t, elemento* e);
 
 elemento* cria_elemento(char* nome);
 
