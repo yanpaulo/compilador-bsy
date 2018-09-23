@@ -38,7 +38,7 @@ declaracoes:
     ;
 
 declaracao:
-    TIPO inicia_ou_lista_de_id ';' { adiciona_elementos_tabela(INT, $2); imprime_elementos($2); }
+    TIPO inicia_ou_lista_de_id ';' { adiciona_elementos_tabela($1, $2); imprime_elementos($2); }
     ;
 
 inicia_ou_lista_de_id:

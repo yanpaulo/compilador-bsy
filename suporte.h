@@ -11,7 +11,7 @@ typedef union valor
 
 typedef enum tipo
 {
-    CHAR, INT, FLOAT
+    CHAR=1, INT, FLOAT
 } tipo;
 
 
@@ -44,6 +44,10 @@ void imprime_elementos(elemento* lista);
 elemento* cria_elemento_valor(tipo t, valor v);
 
 elemento* valor_int(int i);
+
+elemento* valor_float(float f);
+
+elemento* valor_char(char c);
 
 
 #endif

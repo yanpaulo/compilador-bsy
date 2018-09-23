@@ -32,6 +32,20 @@ elemento *valor_int(int i)
     return cria_elemento_valor(INT, v);
 }
 
+elemento* valor_float(float f)
+{
+    valor v;
+    v.floatValue = f;
+    return cria_elemento_valor(FLOAT, v);
+}
+
+elemento* valor_char(char c)
+{
+    valor v;
+    v.charValue = c;
+    return cria_elemento_valor(CHAR, v);
+}
+
 void inicializa_tabela()
 {
     tabela_simbolos = (tabela *)calloc(1, sizeof(tabela));
