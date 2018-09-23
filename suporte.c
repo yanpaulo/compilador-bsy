@@ -120,7 +120,7 @@ elemento *adiciona_elemento(elemento *lista, elemento *e)
         if (l->nome != NULL && !strcmp(l->nome, e->nome))
         {
             char msg[64];
-            sprintf(msg, "Variavel %s ja declarada.", e->nome);
+            sprintf(msg, "Variavel duplicada %s.", e->nome);
             yyerror(msg);
             return NULL;
             return NULL;
