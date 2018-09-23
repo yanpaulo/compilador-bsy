@@ -1,14 +1,43 @@
+%option noyywrap
 %{
+#include <stdio.h>
 #include <stdlib.h>
+#include "suporte.h"
 #include "parser.tab.h"
 %}
 
-%option noyywrap
+id_nome [a-zA-Z]([a-zA-Z0-9])*
+valor_char \"([a-zA-Z0-9*+z=])*\"
+valor_float [0-9]\.[0-9]+
+valor_int [0-9]+
 
 %%
-[ \r\t]*        ;
-"\n"			{ return LINHA; }
-[0-9]+			{ yylval = atoi(yytext); return VALOR; }
-"+"				{ return OP_SOMA; }
-"*"				{ return OP_MULT; }
+
+"int"                   { yylval.tipo = INT; return TIPO; }
+"float"                 { yylval.tipo = FLOAT; return TIPO; }
+"bool"                  { yylval.tipo = INT; return TIPO; }
+"char"                  { yylval.tipo = CHAR; return TIPO; }
+
+"true"                  { return VALOR; }
+"false"                 { return VALOR; }
+
+{valor_int}             { yylval.elemento = valor_int(atoi(yytext)); return VALOR; }
+{valor_float}           { return VALOR; }
+{valor_char}            { return VALOR; }
+{id_nome}               { yylval.nome = strdup(yytext); return ID_NOME; }
+
+[ \r\t]*                ;
+
+","                     { return ','; }
+":"                     { return ':'; }
+";"                     { return ';'; }
+"="                     { return '='; }
+"+"                     { return '+'; }
+"-"                     { return '-'; }
+"*"                     { return '*'; }
+"/"                     { return '/'; }
+"("                     { return '('; }
+")"                     { return ')'; }
+
+
 %%

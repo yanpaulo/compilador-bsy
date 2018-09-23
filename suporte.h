@@ -17,8 +17,8 @@ typedef enum tipo
 
 typedef struct elemento
 {
-    char nome[64];
-    enum tipo tipo;
+    char* nome;
+    tipo tipo;
     valor valor;
     struct elemento* proximo;
 } elemento;
@@ -30,6 +30,12 @@ struct tabela
 } tabela;
 
 void tabela_add(tipo t, char* nome);
+
+elemento* cria_elemento(char* nome);
+
+elemento* cria_elemento_valor(tipo t, valor v);
+
+elemento* valor_int(int i);
 
 
 #endif
