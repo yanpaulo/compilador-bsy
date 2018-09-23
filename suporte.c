@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "suporte.h"
+#include "operacoes.h"
 
 extern void yyerror(const char *s);
 
@@ -54,19 +55,15 @@ void inicializa_tabela()
 
 tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
 {
+    //Elemento para iteração
     elemento *e = lista;
+    //Cópia da lista
+    elemento *lista_copia = NULL;
+    //Elemento para construção lista_copia 
+    elemento *var = NULL;
 
     do
     {
-        if (e->tipo != 0 && e->tipo != tipo)
-        {
-            char erro[128];
-            sprintf(erro, "Nao e possivel converter implicitamente '%s' em '%s'.\n", nome_tipo(e->tipo), nome_tipo(tipo));
-            yyerror(erro);
-            return NULL;
-        }
-        e->tipo = tipo;
-
         if (tabela_simbolos->head)
         {
             elemento *t = tabela_simbolos->head;
@@ -84,26 +81,44 @@ tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
                 t = t->proximo;
             } while (t);
         }
+        
+        elemento* novo = cria_elemento(e->nome);
+        novo->tipo = tipo;
+        e->tipo = e->tipo ? e->tipo : tipo;
+        
+        if (!operacao_atribuicao(novo, e))
+        {
+            return NULL;
+        }
+
+        if (!lista_copia)
+        {
+            lista_copia = var = novo;
+        }
+        else
+        {
+            var->proximo = novo;
+            var = novo;
+        }
 
         e = e->proximo;
     } while (e);
 
     if (tabela_simbolos->head)
     {
-        elemento *l = lista;
         e = tabela_simbolos->head;
 
         while (e->proximo)
         {
             e = e->proximo;
         }
-        e->proximo = lista;
+        e->proximo = lista_copia;
     }
     else
     {
-        tabela_simbolos->head = lista;
+        tabela_simbolos->head = lista_copia;
     }
-    imprime_elementos(lista);
+    imprime_elementos(lista_copia);
 
     return tabela_simbolos;
 }
@@ -201,19 +216,22 @@ char *nome_tipo(tipo t)
 }
 #pragma endregion //Utilitários
 
-elemento* get_elemento_tabela(char* nome)
+elemento *get_elemento_tabela(char *nome)
 {
-    if (tabela_simbolos) {
-        elemento* e = tabela_simbolos->head;
-        
-        while(e){
-            if (!strcmp(e->nome, nome)) {
+    if (tabela_simbolos)
+    {
+        elemento *e = tabela_simbolos->head;
+
+        while (e)
+        {
+            if (!strcmp(e->nome, nome))
+            {
                 return e;
             }
             e = e->proximo;
         }
     }
-    
+
     char str[64];
     sprintf(str, "URSO de variavel nao declarada '%s'\n", nome);
     yyerror(str);
