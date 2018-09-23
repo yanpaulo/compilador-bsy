@@ -38,12 +38,12 @@ declaracoes:
     ;
 
 declaracao:
-    TIPO inicia_ou_lista_de_id ';' { printf("Declaracao %s: %d(%d)\n", $2->nome, $1, $2->valor.intValue); }
+    TIPO inicia_ou_lista_de_id ';' { adiciona_elementos_tabela(INT, $2); imprime_elementos($2); }
     ;
 
 inicia_ou_lista_de_id:
-    inicia_ou_id            { $$ = $1; }
-    | inicia_ou_lista_de_id ',' inicia_ou_id
+    inicia_ou_id                                { $$ = $1; }
+    | inicia_ou_lista_de_id ',' inicia_ou_id    { $$ = adiciona_elemento($1, $3); }
     ;
 
 inicia_ou_id:
@@ -63,6 +63,7 @@ expressao:
 %%
 
 int main() {
+    inicializa_tabela();
 	while(1) {
 		yyparse();
 	}
