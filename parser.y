@@ -38,7 +38,7 @@ declaracoes:
     ;
 
 declaracao:
-    TIPO inicia_ou_lista_de_id ';' { adiciona_elementos_tabela($1, $2); imprime_elementos($2); }
+    TIPO inicia_ou_lista_de_id ';' { if(!adiciona_elementos_tabela($1, $2)) { YYERROR; } imprime_elementos($2); }
     ;
 
 inicia_ou_lista_de_id:
@@ -48,7 +48,7 @@ inicia_ou_lista_de_id:
 
 inicia_ou_id:
     ID_NOME '=' expressao   { $3->nome = strdup($1); $$ = $3; }
-    | ID_NOME               { $$ = cria_elemento(strdup($1)); }
+    | ID_NOME               { $$ = cria_elemento(strdup($1)); if(!$$){ YYERROR; } }
     ;
 
 expressao:
@@ -72,5 +72,4 @@ int main() {
 
 void yyerror(const char* s) {
 	fprintf(stderr, "ERRO!: %s\n", s);
-	exit(1);
 }
