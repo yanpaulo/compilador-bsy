@@ -7,26 +7,9 @@ extern void yyerror(const char *s);
 
 void adiciona_elemento_tabela(tipo t, elemento *e);
 void imprime_elemento(elemento *e);
+char *nome_tipo(tipo t);
 
-char *nome_tipo(tipo t)
-{
-
-    switch (t)
-    {
-    case INT:
-        return "int";
-        break;
-    case CHAR:
-        return "char";
-        break;
-    case FLOAT:
-        return "float";
-        break;
-    default:
-        break;
-    }
-}
-
+#pragma region Elemento
 elemento *cria_elemento(char *nome)
 {
     elemento *e = (elemento *)calloc(1, sizeof(elemento));
@@ -62,7 +45,9 @@ elemento *valor_char(char c)
     v.charValue = c;
     return cria_elemento_valor(CHAR, v);
 }
+#pragma endregion // Elemento
 
+#pragma region Tabela
 void inicializa_tabela()
 {
     tabela_simbolos = (tabela *)calloc(1, sizeof(tabela));
@@ -124,6 +109,9 @@ tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
     return tabela_simbolos;
 }
 
+#pragma endregion //Tabela
+
+#pragma region Lista
 elemento *adiciona_elemento(elemento *lista, elemento *e)
 {
     elemento *l = lista;
@@ -170,7 +158,9 @@ void imprime_elementos(elemento *lista)
     } while (e);
     printf("\n");
 }
+#pragma endregion //Lista
 
+#pragma region Utilitários
 void imprime_elemento(elemento *e)
 {
     switch (e->tipo)
@@ -191,3 +181,23 @@ void imprime_elemento(elemento *e)
         break;
     }
 }
+
+char *nome_tipo(tipo t)
+{
+
+    switch (t)
+    {
+    case INT:
+        return "int";
+        break;
+    case CHAR:
+        return "char";
+        break;
+    case FLOAT:
+        return "float";
+        break;
+    default:
+        break;
+    }
+}
+#pragma endregion //Utilitários
