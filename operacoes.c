@@ -134,6 +134,7 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         {
         case CHAR:
             e1->valor.charValue = e2->valor.charValue;
+            printf("%s = %c\n", e1->nome, e1->valor.charValue);
             return e1;
         }
 
@@ -142,9 +143,11 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         {
         case CHAR:
             e1->valor.intValue = e2->valor.charValue;
+            printf("%s = %d\n", e1->nome, e1->valor.intValue);
             return e1;
         case INT:
             e1->valor.intValue = e2->valor.intValue;
+            printf("%s = %d\n", e1->nome, e1->valor.intValue);
             return e1;
         }
 
@@ -153,12 +156,15 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         {
         case CHAR:
             e1->valor.floatValue = e2->valor.charValue;
+            printf("%s = %f\n", e1->nome, e1->valor.floatValue);
             return e1;
         case INT:
             e1->valor.floatValue = e2->valor.intValue;
+            printf("%s = %f\n", e1->nome, e1->valor.floatValue);
             return e1;
         case FLOAT:
             e1->valor.floatValue = e2->valor.floatValue;
+            printf("%s = %f\n", e1->nome, e1->valor.floatValue);
             return e1;
         }
     }
