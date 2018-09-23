@@ -127,7 +127,6 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         return NULL;
     }
     
-    
     switch (e1->tipo)
     {
     case CHAR:
@@ -135,9 +134,7 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         {
         case CHAR:
             e1->valor.charValue = e2->valor.charValue;
-            break;
-        default:
-            return erro_conversao(e1, e2);
+            return e1;
         }
 
     case INT:
@@ -145,12 +142,10 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         {
         case CHAR:
             e1->valor.intValue = e2->valor.charValue;
-            break;
+            return e1;
         case INT:
             e1->valor.intValue = e2->valor.intValue;
-            break;
-        default:
-            return erro_conversao(e1, e2);
+            return e1;
         }
 
     case FLOAT:
@@ -158,16 +153,17 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         {
         case CHAR:
             e1->valor.floatValue = e2->valor.charValue;
-            break;
+            return e1;
         case INT:
             e1->valor.floatValue = e2->valor.intValue;
-            break;
+            return e1;
         case FLOAT:
             e1->valor.floatValue = e2->valor.floatValue;
-            break;
+            return e1;
         }
     }
-    return e1;
+
+    return erro_conversao(e1, e2);
 }
 
 elemento* operacao_atribuicao_nome(char* nome, elemento* e2)
