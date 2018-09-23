@@ -103,7 +103,7 @@ tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
     {
         tabela_simbolos->head = lista;
     }
-    printf("\n");
+    imprime_elementos(lista);
 
     return tabela_simbolos;
 }
@@ -217,6 +217,6 @@ elemento* get_elemento_tabela(char* nome)
     char str[64];
     sprintf(str, "URSO de variavel nao declarada '%s'\n", nome);
     yyerror(str);
-    
+
     return NULL;
 }
