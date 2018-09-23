@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "suporte.h"
+#include "operacoes.h"
 
 extern int yylex();
 extern int yyparse();
@@ -52,11 +53,11 @@ inicia_ou_id:
     ;
 
 expressao:
-    expressao '+' expressao
-    | expressao '-' expressao
-    | expressao '*' expressao
-    | expressao '/' expressao
-    | '(' expressao ')'
+    expressao '+' expressao     { $$ = operacao_soma($1, $3); }
+    | expressao '-' expressao   { $$ = operacao_subtracao($1, $3); }
+    | expressao '*' expressao   { $$ = operacao_multiplicacao($1, $3); }
+    | expressao '/' expressao   { $$ = operacao_divisao($1, $3); }
+    | '(' expressao ')'         { $$ = $2; }
 	| VALOR { $$ = $1; }
     ;
 
