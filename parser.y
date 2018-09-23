@@ -6,6 +6,7 @@
 #include "operacoes.h"
 
 #define VERIFICA(F) if(!F) YYERROR;
+#define ATRIBUI(VAR, F) VAR = F; if(!VAR) YYERROR;
 
 extern int yylex();
 extern int yyparse();
@@ -52,12 +53,12 @@ declaracao:
 
 inicia_ou_lista_de_id:
     inicia_ou_id                                { $$ = $1; }
-    | inicia_ou_lista_de_id ',' inicia_ou_id    { $$ = adiciona_elemento($1, $3); }
+    | inicia_ou_lista_de_id ',' inicia_ou_id    { ATRIBUI($$, adiciona_elemento($1, $3)); }
     ;
 
 inicia_ou_id:
     ID_NOME '=' expressao   { $3->nome = strdup($1); $$ = $3; }
-    | ID_NOME               { $$ = cria_elemento(strdup($1)); VERIFICA($$); }
+    | ID_NOME               { ATRIBUI($$, cria_elemento(strdup($1))); }
     ;
 
 expressao:
@@ -67,6 +68,7 @@ expressao:
     | expressao '/' expressao   { $$ = operacao_divisao($1, $3); }
     | ID_NOME '=' expressao     { $$ = operacao_atribuicao_nome($1, $3); }
     | '(' expressao ')'         { $$ = $2; }
+    | ID_NOME                   { ATRIBUI($$, get_elemento_tabela($1)); }
 	| VALOR                     { $$ = $1; }
     ;
 
