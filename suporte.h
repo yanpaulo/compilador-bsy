@@ -51,4 +51,6 @@ elemento* valor_char(char c);
 
 char *nome_tipo(tipo t);
 
+elemento* get_elemento_tabela(char* nome);
+
 #endif

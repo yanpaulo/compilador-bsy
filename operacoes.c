@@ -117,6 +117,17 @@ elemento *erro_conversao(elemento *e1, elemento *e2)
 
 elemento *operacao_atribuicao(elemento *e1, elemento *e2)
 {
+    if (!e1) {
+        return NULL;
+    }
+    if (!e1->nome) {
+        char str[64];
+        sprintf(str, "Tentativa de atribuicao a constante. Enlouqueceu?");
+        yyerror(str);
+        return NULL;
+    }
+    
+    
     switch (e1->tipo)
     {
     case CHAR:
@@ -124,6 +135,7 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         {
         case CHAR:
             e1->valor.charValue = e2->valor.charValue;
+            break;
         default:
             return erro_conversao(e1, e2);
         }
@@ -133,8 +145,10 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         {
         case CHAR:
             e1->valor.intValue = e2->valor.charValue;
+            break;
         case INT:
             e1->valor.intValue = e2->valor.intValue;
+            break;
         default:
             return erro_conversao(e1, e2);
         }
@@ -144,12 +158,19 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         {
         case CHAR:
             e1->valor.floatValue = e2->valor.charValue;
+            break;
         case INT:
             e1->valor.floatValue = e2->valor.intValue;
+            break;
         case FLOAT:
             e1->valor.floatValue = e2->valor.floatValue;
+            break;
         }
     }
-
     return e1;
+}
+
+elemento* operacao_atribuicao_nome(char* nome, elemento* e2)
+{
+    return operacao_atribuicao(get_elemento_tabela(nome), e2);
 }

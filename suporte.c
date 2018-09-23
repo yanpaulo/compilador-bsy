@@ -200,3 +200,23 @@ char *nome_tipo(tipo t)
     }
 }
 #pragma endregion //Utilitários
+
+elemento* get_elemento_tabela(char* nome)
+{
+    if (tabela_simbolos) {
+        elemento* e = tabela_simbolos->head;
+        
+        while(e){
+            if (!strcmp(e->nome, nome)) {
+                return e;
+            }
+            e = e->proximo;
+        }
+    }
+    
+    char str[64];
+    sprintf(str, "URSO de variavel nao declarada '%s'\n", nome);
+    yyerror(str);
+    
+    return NULL;
+}

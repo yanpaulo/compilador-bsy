@@ -24,22 +24,28 @@ void yyerror(const char* s);
 
 %type<elemento> inicia_ou_id inicia_ou_lista_de_id expressao
 
+%left '='
 %left '+' '-'
 %left '*' '/'
 
 
 %%
 
-main: declaracoes
+main:
+    instrucoes
     ;
 
-declaracoes:
-    declaracao
-    | declaracoes declaracao
+instrucoes:
+    instrucao
+    | instrucoes instrucao
+    ;
+instrucao:
+    declaracao ';'
+    | expressao ';'
     ;
 
 declaracao:
-    TIPO inicia_ou_lista_de_id ';' { if(!adiciona_elementos_tabela($1, $2)) { YYERROR; } imprime_elementos($2); }
+    TIPO inicia_ou_lista_de_id  { if(!adiciona_elementos_tabela($1, $2)) { YYERROR; } imprime_elementos($2); }
     ;
 
 inicia_ou_lista_de_id:
@@ -57,6 +63,7 @@ expressao:
     | expressao '-' expressao   { $$ = operacao_subtracao($1, $3); }
     | expressao '*' expressao   { $$ = operacao_multiplicacao($1, $3); }
     | expressao '/' expressao   { $$ = operacao_divisao($1, $3); }
+    | ID_NOME '=' expressao     { $$ = operacao_atribuicao_nome($1, $3); }
     | '(' expressao ')'         { $$ = $2; }
 	| VALOR { $$ = $1; }
     ;
