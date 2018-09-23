@@ -5,6 +5,8 @@
 #include "suporte.h"
 #include "operacoes.h"
 
+#define VERIFICA(F) if(!F) YYERROR;
+
 extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
@@ -45,7 +47,7 @@ instrucao:
     ;
 
 declaracao:
-    TIPO inicia_ou_lista_de_id  { if(!adiciona_elementos_tabela($1, $2)) { YYERROR; } imprime_elementos($2); }
+    TIPO inicia_ou_lista_de_id  { VERIFICA(adiciona_elementos_tabela($1, $2)); }
     ;
 
 inicia_ou_lista_de_id:
@@ -55,7 +57,7 @@ inicia_ou_lista_de_id:
 
 inicia_ou_id:
     ID_NOME '=' expressao   { $3->nome = strdup($1); $$ = $3; }
-    | ID_NOME               { $$ = cria_elemento(strdup($1)); if(!$$){ YYERROR; } }
+    | ID_NOME               { $$ = cria_elemento(strdup($1)); VERIFICA($$); }
     ;
 
 expressao:
@@ -65,7 +67,7 @@ expressao:
     | expressao '/' expressao   { $$ = operacao_divisao($1, $3); }
     | ID_NOME '=' expressao     { $$ = operacao_atribuicao_nome($1, $3); }
     | '(' expressao ')'         { $$ = $2; }
-	| VALOR { $$ = $1; }
+	| VALOR                     { $$ = $1; }
     ;
 
 %%
