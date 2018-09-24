@@ -2,7 +2,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include "suporte.h"
+#include "modelo.h"
 #include "parser.tab.h"
 %}
 

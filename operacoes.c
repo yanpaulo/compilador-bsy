@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "suporte.h"
+#include "modelo.h"
 #include "operacoes.h"
 
 extern void yyerror(const char *s);

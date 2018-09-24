@@ -1,7 +1,7 @@
 #ifndef OPERACOES_H
 #define OPERACOES_H
 
-#include "suporte.h"
+#include "modelo.h"
 
 //Operações aritméticas
 elemento *operacao_soma(elemento *e1, elemento *e2);

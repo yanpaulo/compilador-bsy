@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "suporte.h"
+#include "modelo.h"
 #include "operacoes.h"
 
 #define VERIFICA(F) if(!F) YYERROR;
