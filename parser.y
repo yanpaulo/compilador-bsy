@@ -83,6 +83,7 @@ expressao:
 
 int main() {
     inicializa_tabela();
+    printf("Linha de comando interativa de C.\n");
 	while(1) {
 		yyparse();
 	}
