@@ -41,6 +41,8 @@ elemento* adiciona_elemento(elemento* lista, elemento* e);
 
 void imprime_elementos(elemento* lista);
 
+void imprime_tabela_simbolos();
+
 elemento* cria_elemento_valor(tipo t, valor v);
 
 elemento* valor_int(int i);

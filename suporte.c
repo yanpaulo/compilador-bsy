@@ -238,3 +238,14 @@ elemento *get_elemento_tabela(char *nome)
 
     return NULL;
 }
+
+void imprime_tabela_simbolos()
+{
+    elemento* lista = tabela_simbolos->head;
+    if (!lista) {
+        printf("Tabela de simbolos vazia. Siacalme, vc esta muito neuvosor.\n");
+        return;
+    }
+
+    imprime_elementos(lista);
+}

@@ -17,6 +17,7 @@ valor_int [-]?[0-9]+
 "float"                 { yylval.tipo = FLOAT; return TIPO; }
 "bool"                  { yylval.tipo = INT; return TIPO; }
 "char"                  { yylval.tipo = CHAR; return TIPO; }
+"imprime()"             { return IMPRIMIR; }
 
 "true"                  { return VALOR; }
 "false"                 { return VALOR; }

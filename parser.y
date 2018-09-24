@@ -21,6 +21,7 @@ void yyerror(const char* s);
     elemento* elemento;
 }
 
+%token IMPRIMIR
 %token<nome> ID_NOME
 %token<tipo> TIPO
 %token<elemento> VALOR
@@ -46,6 +47,7 @@ instrucoes:
 instrucao:
     declaracao ';'
     | expressao ';'
+    | IMPRIMIR ';'              { imprime_tabela_simbolos(); }
     ;
 
 declaracao:
