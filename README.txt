@@ -1,4 +1,4 @@
-Interpretador DBY
+Interpretador BSY
 Interpretador interativo para a Lingaugem BSY: Linguagem de programação semelhante a um subset da linguagem C99 com algumas diferenças.
 
 Tipos existentes:
