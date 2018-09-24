@@ -232,7 +232,7 @@ void imprime_elemento(elemento *e)
         break;
 
     case CHAR:
-        printf("%s(CHAR): %c", e->nome, e->valor.charValue);
+        printf("%s(CHAR): %d (%c)", e->nome, e->valor.charValue, e->valor.charValue);
         break;
 
     default:
