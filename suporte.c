@@ -15,7 +15,7 @@ void inicializa_tabela()
     tabela_simbolos = (tabela *)calloc(1, sizeof(tabela));
 }
 
-void imprime_tabela_simbolos()
+void imprime_tabela()
 {
     elemento *lista = tabela_simbolos->head;
     if (!lista)

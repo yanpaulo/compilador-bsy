@@ -46,7 +46,7 @@ tabela* tabela_simbolos;
 void inicializa_tabela();
 
 //Imprime a tabela de símbolos
-void imprime_tabela_simbolos();
+void imprime_tabela();
 
 //Adiciona uma lista com 1 ou mais elementos na tabela de símbolos
 tabela* adiciona_elementos_tabela(tipo t, elemento* e);

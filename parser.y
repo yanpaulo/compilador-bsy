@@ -47,7 +47,7 @@ instrucoes:
 instrucao:
     declaracao ';'
     | expressao ';'
-    | IMPRIMIR ';'              { imprime_tabela_simbolos(); }
+    | IMPRIMIR ';'              { imprime_tabela(); }
     ;
 
 declaracao:
