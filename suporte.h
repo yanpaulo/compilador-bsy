@@ -1,6 +1,7 @@
 #ifndef SUPORTE_H
 #define SUPORTE_H
 
+#pragma region Estruturas
 //Valor de constante ou variável
 typedef union valor
 {
@@ -34,9 +35,13 @@ typedef struct tabela
     elemento* head;
 } tabela;
 
+
 //Instância da tabela de símbolos
 tabela* tabela_simbolos;
+#pragma endregion //Estruturas
 
+
+#pragma region Tabela
 //Inicializa a tabela de símbolos
 void inicializa_tabela();
 
@@ -48,13 +53,19 @@ tabela* adiciona_elementos_tabela(tipo t, elemento* e);
 
 //Retorna um (hum) elemento da tabela de símbolos
 elemento* get_elemento_tabela(char* nome);
+#pragma endregion //Tabela
 
+
+#pragma region Lista
 //Adiciona um elemento na lista especificada
 elemento* adiciona_elemento(elemento* lista, elemento* e);
 
 //Imprime os elementos da lista especificada
 void imprime_elementos(elemento* lista);
+#pragma endregion //Lista
 
+
+#pragma region Elemento
 //Cria um elemento com o nome especificado
 elemento* cria_elemento(char* nome);
 
@@ -72,6 +83,7 @@ elemento* valor_float(float f);
 
 //Cria um elemento com valor char c
 elemento* valor_char(char c);
+#pragma endregion //Elemento
 
 //Retorna o nome do tipo t
 char *nome_tipo(tipo t);
