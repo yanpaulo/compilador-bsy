@@ -73,7 +73,7 @@ expressao:
     | expressao OR expressao    { $$ = operacao_ou($1, $3); }
     | expressao AND expressao   { $$ = operacao_e($1, $3); }
     | NOT expressao             { $$ = operacao_negacao($2); }
-    | ID_NOME '=' expressao     { $$ = operacao_atribuicao_nome($1, $3); }
+    | ID_NOME '=' expressao     { ATRIBUI($$, operacao_atribuicao_nome($1, $3)); imprime_elementos($$); }
     | ID_NOME                   { ATRIBUI($$, copia_elemento(get_elemento_tabela($1))); }
     | '(' expressao ')'         { $$ = $2; }
 	| VALOR                     { $$ = $1; }
