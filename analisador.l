@@ -8,7 +8,7 @@
 
 id_nome [_a-zA-Z]([a-zA-Z0-9])*
 valor_char '.'
-valor_float [0-9]+\.[0-9]+
+valor_float [-]?[0-9]+\.[0-9]+
 valor_int [-]?[0-9]+
 
 %%
