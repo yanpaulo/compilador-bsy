@@ -4,6 +4,7 @@
 #include "operacoes.h"
 
 extern void yyerror(const char *s);
+elemento *erro_conversao(elemento *e1, elemento *e2);
 
 #pragma region Macros
 
@@ -87,6 +88,7 @@ extern void yyerror(const char *s);
 
 #pragma endregion //Macros
 
+#pragma region Operações Aritméticas
 elemento *operacao_soma(elemento *e1, elemento *e2)
 {
     OPERACAO_ARITMETICA(+);
@@ -105,29 +107,6 @@ elemento *operacao_multiplicacao(elemento *e1, elemento *e2)
 elemento *operacao_divisao(elemento *e1, elemento *e2)
 {
     OPERACAO_ARITMETICA(/);
-}
-
-elemento *operacao_ou(elemento *e1, elemento *e2)
-{
-    OPERACAO_LOGICA(||);
-}
-
-elemento *operacao_negacao(elemento *e1)
-{
-    switch (e1->tipo)
-    {
-    case CHAR:
-        return valor_char(!e1->valor.charValue);
-    case INT:
-        return valor_int(!e1->valor.intValue);
-    case FLOAT:
-        return valor_float(!e1->valor.charValue);
-    }
-}
-
-elemento *operacao_e(elemento *e1, elemento *e2)
-{
-    OPERACAO_LOGICA(&&);
 }
 
 elemento *operacao_exponenciacao(elemento *e1, elemento *e2)
@@ -158,15 +137,34 @@ elemento *operacao_exponenciacao(elemento *e1, elemento *e2)
 
     return e1;
 }
+#pragma endregion //Operações Aritméticas
 
-elemento *erro_conversao(elemento *e1, elemento *e2)
+#pragma region Operações lógicas
+elemento *operacao_e(elemento *e1, elemento *e2)
 {
-    char str[128];
-    sprintf(str, "Nao e possivel converter implicitamente de '%s' para '%s' (tambem nao tem conversao explicita hehehehehe)\n", nome_tipo(e2->tipo), nome_tipo(e1->tipo));
-    yyerror(str);
-    return NULL;
+    OPERACAO_LOGICA(&&);
 }
 
+elemento *operacao_ou(elemento *e1, elemento *e2)
+{
+    OPERACAO_LOGICA(||);
+}
+
+elemento *operacao_negacao(elemento *e1)
+{
+    switch (e1->tipo)
+    {
+    case CHAR:
+        return valor_char(!e1->valor.charValue);
+    case INT:
+        return valor_int(!e1->valor.intValue);
+    case FLOAT:
+        return valor_float(!e1->valor.charValue);
+    }
+}
+#pragma endregion //Operações lógicas
+
+#pragma region Operações de atribuição
 elemento *operacao_atribuicao(elemento *e1, elemento *e2)
 {
     if (!e1)
@@ -231,4 +229,13 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
 elemento *operacao_atribuicao_nome(char *nome, elemento *e2)
 {
     return operacao_atribuicao(get_elemento_tabela(nome), e2);
+}
+#pragma endregion //Operações de atribuição
+
+elemento *erro_conversao(elemento *e1, elemento *e2)
+{
+    char str[128];
+    sprintf(str, "Nao e possivel converter implicitamente de '%s' para '%s' (tambem nao tem conversao explicita hehehehehe)\n", nome_tipo(e2->tipo), nome_tipo(e1->tipo));
+    yyerror(str);
+    return NULL;
 }

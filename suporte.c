@@ -9,48 +9,22 @@ extern void yyerror(const char *s);
 void adiciona_elemento_tabela(tipo t, elemento *e);
 void imprime_elemento(elemento *e);
 
-#pragma region Elemento
-elemento *cria_elemento(char *nome)
-{
-    elemento *e = (elemento *)calloc(1, sizeof(elemento));
-    e->nome = nome;
-    return e;
-}
-
-elemento *cria_elemento_valor(tipo t, valor v)
-{
-    elemento *e = (elemento *)calloc(1, sizeof(elemento));
-    e->tipo = t;
-    e->valor = v;
-    return e;
-}
-
-elemento *valor_int(int i)
-{
-    valor v;
-    v.intValue = i;
-    return cria_elemento_valor(INT, v);
-}
-
-elemento *valor_float(float f)
-{
-    valor v;
-    v.floatValue = f;
-    return cria_elemento_valor(FLOAT, v);
-}
-
-elemento *valor_char(char c)
-{
-    valor v;
-    v.charValue = c;
-    return cria_elemento_valor(CHAR, v);
-}
-#pragma endregion // Elemento
-
 #pragma region Tabela
 void inicializa_tabela()
 {
     tabela_simbolos = (tabela *)calloc(1, sizeof(tabela));
+}
+
+void imprime_tabela_simbolos()
+{
+    elemento *lista = tabela_simbolos->head;
+    if (!lista)
+    {
+        printf("Tabela de simbolos vazia. Siacalme, vc esta muito neuvosor.\n");
+        return;
+    }
+
+    imprime_elementos(lista);
 }
 
 tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
@@ -59,7 +33,7 @@ tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
     elemento *e = lista;
     //Cópia da lista
     elemento *lista_copia = NULL;
-    //Elemento para construção lista_copia 
+    //Elemento para construção lista_copia
     elemento *var = NULL;
 
     do
@@ -80,11 +54,11 @@ tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
                 t = t->proximo;
             } while (t);
         }
-        
-        elemento* novo = cria_elemento(e->nome);
+
+        elemento *novo = cria_elemento(e->nome);
         novo->tipo = tipo;
         e->tipo = e->tipo ? e->tipo : tipo;
-        
+
         if (!operacao_atribuicao(novo, e))
         {
             return NULL;
@@ -122,6 +96,28 @@ tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
     return tabela_simbolos;
 }
 
+elemento *get_elemento_tabela(char *nome)
+{
+    if (tabela_simbolos)
+    {
+        elemento *e = tabela_simbolos->head;
+
+        while (e)
+        {
+            if (!strcmp(e->nome, nome))
+            {
+                return e;
+            }
+            e = e->proximo;
+        }
+    }
+
+    char str[64];
+    sprintf(str, "URSO de variavel nao declarada '%s'\n", nome);
+    yyerror(str);
+
+    return NULL;
+}
 #pragma endregion //Tabela
 
 #pragma region Lista
@@ -173,7 +169,56 @@ void imprime_elementos(elemento *lista)
 }
 #pragma endregion //Lista
 
-#pragma region Utilitários
+#pragma region Elemento
+elemento *cria_elemento(char *nome)
+{
+    elemento *e = (elemento *)calloc(1, sizeof(elemento));
+    e->nome = nome;
+    return e;
+}
+
+elemento *cria_elemento_valor(tipo t, valor v)
+{
+    elemento *e = (elemento *)calloc(1, sizeof(elemento));
+    e->tipo = t;
+    e->valor = v;
+    return e;
+}
+
+elemento *copia_elemento(elemento *e)
+{
+    if (!e)
+    {
+        return NULL;
+    }
+
+    elemento *novo = cria_elemento(e->nome);
+    novo->tipo = e->tipo;
+
+    return operacao_atribuicao(novo, e);
+}
+
+elemento *valor_int(int i)
+{
+    valor v;
+    v.intValue = i;
+    return cria_elemento_valor(INT, v);
+}
+
+elemento *valor_float(float f)
+{
+    valor v;
+    v.floatValue = f;
+    return cria_elemento_valor(FLOAT, v);
+}
+
+elemento *valor_char(char c)
+{
+    valor v;
+    v.charValue = c;
+    return cria_elemento_valor(CHAR, v);
+}
+
 void imprime_elemento(elemento *e)
 {
     switch (e->tipo)
@@ -195,6 +240,10 @@ void imprime_elemento(elemento *e)
     }
 }
 
+#pragma endregion // Elemento
+
+#pragma region Utilitários
+
 char *nome_tipo(tipo t)
 {
 
@@ -213,50 +262,5 @@ char *nome_tipo(tipo t)
         break;
     }
 }
+
 #pragma endregion //Utilitários
-
-elemento *get_elemento_tabela(char *nome)
-{
-    if (tabela_simbolos)
-    {
-        elemento *e = tabela_simbolos->head;
-
-        while (e)
-        {
-            if (!strcmp(e->nome, nome))
-            {
-                return e;
-            }
-            e = e->proximo;
-        }
-    }
-
-    char str[64];
-    sprintf(str, "URSO de variavel nao declarada '%s'\n", nome);
-    yyerror(str);
-
-    return NULL;
-}
-
-void imprime_tabela_simbolos()
-{
-    elemento* lista = tabela_simbolos->head;
-    if (!lista) {
-        printf("Tabela de simbolos vazia. Siacalme, vc esta muito neuvosor.\n");
-        return;
-    }
-
-    imprime_elementos(lista);
-}
-
-elemento* copia_elemento(elemento* e)
-{
-    if (!e) {
-        return NULL;
-    }
-    
-    elemento* novo = cria_elemento(e->nome);
-    novo->tipo = e->tipo;
-
-    return operacao_atribuicao(novo, e);
-}
