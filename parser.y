@@ -69,16 +69,16 @@ expressao:
     | expressao '-' expressao   { $$ = operacao_subtracao($1, $3); }
     | expressao '*' expressao   { $$ = operacao_multiplicacao($1, $3); }
     | expressao '/' expressao   { $$ = operacao_divisao($1, $3); }
-    | expressao EXP expressao   { $$ = operacao_exponenciacao($1, $3); }
+    | expressao EXP expressao   { ATRIBUI($$, operacao_exponenciacao($1, $3)); }
     | expressao OR expressao    { $$ = operacao_ou($1, $3); }
     | expressao AND expressao   { $$ = operacao_e($1, $3); }
     | NOT expressao             { $$ = operacao_negacao($2); }
     | ID_NOME '=' expressao     { $$ = operacao_atribuicao_nome($1, $3); }
+    | ID_NOME                   { ATRIBUI($$, copia_elemento(get_elemento_tabela($1))); }
     | '(' expressao ')'         { $$ = $2; }
-    | ID_NOME                   { ATRIBUI($$, get_elemento_tabela($1)); }
 	| VALOR                     { $$ = $1; }
     ;
-
+ 
 %%
 
 int main() {

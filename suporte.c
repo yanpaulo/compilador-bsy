@@ -67,7 +67,6 @@ tabela *adiciona_elementos_tabela(tipo tipo, elemento *lista)
         if (tabela_simbolos->head)
         {
             elemento *t = tabela_simbolos->head;
-
             do
             {
                 if (!strcmp(t->nome, e->nome))
@@ -248,4 +247,16 @@ void imprime_tabela_simbolos()
     }
 
     imprime_elementos(lista);
+}
+
+elemento* copia_elemento(elemento* e)
+{
+    if (!e) {
+        return NULL;
+    }
+    
+    elemento* novo = cria_elemento(e->nome);
+    novo->tipo = e->tipo;
+
+    return operacao_atribuicao(novo, e);
 }

@@ -140,11 +140,17 @@ elemento *operacao_exponenciacao(elemento *e1, elemento *e2)
         return NULL;
     }
 
-    elemento *copia = cria_elemento("copia");
+    elemento *copia = cria_elemento("e1");
     copia->tipo = e1->tipo;
     operacao_atribuicao(copia, e1);
 
     int n = exp->valor.intValue;
+    if (n == 0) {
+        copia = operacao_multiplicacao(copia, valor_char(0));
+        copia = operacao_soma(copia, valor_char(1));
+        return copia;
+    }
+    
     for (int i = 0; i < n - 1; i++)
     {
         e1 = operacao_multiplicacao(e1, copia);
@@ -155,8 +161,8 @@ elemento *operacao_exponenciacao(elemento *e1, elemento *e2)
 
 elemento *erro_conversao(elemento *e1, elemento *e2)
 {
-    char str[64];
-    sprintf(str, "Nao e possivel converter implicitamente de '%s' para '%s'\n", nome_tipo(e1->tipo), nome_tipo(e2->tipo));
+    char str[128];
+    sprintf(str, "Nao e possivel converter implicitamente de '%s' para '%s' (tambem nao tem conversao explicita hehehehehe)\n", nome_tipo(e2->tipo), nome_tipo(e1->tipo));
     yyerror(str);
     return NULL;
 }

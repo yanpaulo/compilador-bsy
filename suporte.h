@@ -55,4 +55,6 @@ char *nome_tipo(tipo t);
 
 elemento* get_elemento_tabela(char* nome);
 
+elemento* copia_elemento(elemento* e);
+
 #endif
