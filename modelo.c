@@ -113,7 +113,7 @@ elemento *get_elemento_tabela(char *nome)
     }
 
     char str[64];
-    sprintf(str, "URSO de variavel nao declarada '%s'\n", nome);
+    sprintf(str, "URSO de variavel nao declarada '%s'.\n", nome);
     yyerror(str);
 
     return NULL;

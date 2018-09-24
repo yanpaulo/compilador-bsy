@@ -235,7 +235,7 @@ elemento *operacao_atribuicao_nome(char *nome, elemento *e2)
 elemento *erro_conversao(elemento *e1, elemento *e2)
 {
     char str[128];
-    sprintf(str, "Nao e possivel converter implicitamente de '%s' para '%s' (tambem nao tem conversao explicita hehehehehe)\n", nome_tipo(e2->tipo), nome_tipo(e1->tipo));
+    sprintf(str, "Nao e possivel converter implicitamente de '%s' para '%s' (tambem nao tem conversao explicita hehehehehe).\n", nome_tipo(e2->tipo), nome_tipo(e1->tipo));
     yyerror(str);
     return NULL;
 }
