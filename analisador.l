@@ -35,10 +35,11 @@ valor_int [-]?[0-9]+
 "+"                     { return '+'; }
 "-"                     { return '-'; }
 "*"                     { return '*'; }
+"**"                    { return EXP; }
 "/"                     { return '/'; }
 "("                     { return '('; }
 ")"                     { return ')'; }
-"!"                     { return '!'; }
+"!"                     { return NOT; }
 "&&"                    { return AND; }
 "||"                    { return OR; }
 

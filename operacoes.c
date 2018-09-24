@@ -112,9 +112,45 @@ elemento *operacao_ou(elemento *e1, elemento *e2)
     OPERACAO_LOGICA(||);
 }
 
+elemento *operacao_negacao(elemento *e1)
+{
+    switch (e1->tipo)
+    {
+    case CHAR:
+        return valor_char(!e1->valor.charValue);
+    case INT:
+        return valor_int(!e1->valor.intValue);
+    case FLOAT:
+        return valor_float(!e1->valor.charValue);
+    }
+}
+
 elemento *operacao_e(elemento *e1, elemento *e2)
 {
     OPERACAO_LOGICA(&&);
+}
+
+elemento *operacao_exponenciacao(elemento *e1, elemento *e2)
+{
+    elemento *exp = cria_elemento("exp");
+    exp->tipo = INT;
+    exp = operacao_atribuicao(exp, e2);
+    if (!exp)
+    {
+        return NULL;
+    }
+
+    elemento *copia = cria_elemento("copia");
+    copia->tipo = e1->tipo;
+    operacao_atribuicao(copia, e1);
+
+    int n = exp->valor.intValue;
+    for (int i = 0; i < n - 1; i++)
+    {
+        e1 = operacao_multiplicacao(e1, copia);
+    }
+
+    return e1;
 }
 
 elemento *erro_conversao(elemento *e1, elemento *e2)
@@ -127,10 +163,12 @@ elemento *erro_conversao(elemento *e1, elemento *e2)
 
 elemento *operacao_atribuicao(elemento *e1, elemento *e2)
 {
-    if (!e1) {
+    if (!e1)
+    {
         return NULL;
     }
-    if (!e1->nome) {
+    if (!e1->nome)
+    {
         char str[64];
         sprintf(str, "Tentativa de atribuicao a constante. Enlouqueceu?");
         yyerror(str);
@@ -184,7 +222,7 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
     return erro_conversao(e1, e2);
 }
 
-elemento* operacao_atribuicao_nome(char* nome, elemento* e2)
+elemento *operacao_atribuicao_nome(char *nome, elemento *e2)
 {
     return operacao_atribuicao(get_elemento_tabela(nome), e2);
 }
