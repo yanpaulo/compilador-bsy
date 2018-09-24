@@ -28,6 +28,7 @@ void yyerror(const char* s);
 %type<elemento> inicia_ou_id inicia_ou_lista_de_id expressao
 
 %left '='
+%left AND OR
 %left '+' '-'
 %left '*' '/'
 
@@ -66,6 +67,8 @@ expressao:
     | expressao '-' expressao   { $$ = operacao_subtracao($1, $3); }
     | expressao '*' expressao   { $$ = operacao_multiplicacao($1, $3); }
     | expressao '/' expressao   { $$ = operacao_divisao($1, $3); }
+    | expressao OR expressao  { $$ = operacao_ou($1, $3); }
+    | expressao AND expressao  { $$ = operacao_e($1, $3); }
     | ID_NOME '=' expressao     { $$ = operacao_atribuicao_nome($1, $3); }
     | '(' expressao ')'         { $$ = $2; }
     | ID_NOME                   { ATRIBUI($$, get_elemento_tabela($1)); }

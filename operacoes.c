@@ -107,6 +107,16 @@ elemento *operacao_divisao(elemento *e1, elemento *e2)
     OPERACAO_ARITMETICA(/);
 }
 
+elemento *operacao_ou(elemento *e1, elemento *e2)
+{
+    OPERACAO_LOGICA(||);
+}
+
+elemento *operacao_e(elemento *e1, elemento *e2)
+{
+    OPERACAO_LOGICA(&&);
+}
+
 elemento *erro_conversao(elemento *e1, elemento *e2)
 {
     char str[64];
@@ -126,7 +136,6 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
         yyerror(str);
         return NULL;
     }
-    
     switch (e1->tipo)
     {
     case CHAR:
@@ -137,6 +146,7 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
             printf("%s = %c\n", e1->nome, e1->valor.charValue);
             return e1;
         }
+        break;
 
     case INT:
         switch (e2->tipo)
@@ -150,6 +160,7 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
             printf("%s = %d\n", e1->nome, e1->valor.intValue);
             return e1;
         }
+        break;
 
     case FLOAT:
         switch (e2->tipo)
@@ -167,6 +178,7 @@ elemento *operacao_atribuicao(elemento *e1, elemento *e2)
             printf("%s = %f\n", e1->nome, e1->valor.floatValue);
             return e1;
         }
+        break;
     }
 
     return erro_conversao(e1, e2);
